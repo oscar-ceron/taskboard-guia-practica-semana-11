@@ -7,9 +7,9 @@
 @section('contenido')
 
 @if(session('error'))
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-        {{ session('error') }}
-    </div>
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+    {{ session('error') }}
+</div>
 @endif
 
 <p><a href="{{ route('comercios.index') }}">&larr; Volver a comercios</a></p>
@@ -48,6 +48,19 @@
         @method('DELETE')
         <button type="submit">Eliminar</button>
     </form>
+    
+    @if ($t->estado === 'Iniciada')
+    <form action="{{ route('transacciones.mover', [$t, 'Completada']) }}"
+        method="POST" style="display:inline">
+        @csrf @method('PATCH')
+        <button type="submit">Marcar Completada</button>
+    </form>
+    <form action="{{ route('transacciones.mover', [$t, 'Fallida']) }}"
+        method="POST" style="display:inline">
+        @csrf @method('PATCH')
+        <button type="submit">Marcar Fallida</button>
+    </form>
+    @endif
 </div>
 @empty
 <p>Sin transacciones</p>

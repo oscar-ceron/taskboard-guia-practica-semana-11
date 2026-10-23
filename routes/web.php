@@ -50,3 +50,7 @@ Route::put('/transacciones/{transaccion}',
 Route::delete('/transacciones/{transaccion}',
 [TransaccionController::class, 'destroy'])
 ->name('transacciones.destroy');
+
+Route::patch('/transacciones/{transaccion}/mover/{estado}',
+[TransaccionController::class, 'moverEstado'])
+->name('transacciones.mover');

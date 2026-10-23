@@ -62,4 +62,21 @@ class TransaccionController extends Controller
         }
     }
 
+    public function moverEstado(Transaccion $transaccion, string $estado)
+    {
+        $transiciones = [
+            'Iniciada' => ['Completada', 'Fallida'],
+            'Completada' => [],
+            'Fallida' => ['Iniciada'],
+        ];
+
+        if (!in_array($estado, $transiciones[$transaccion->estado] ?? [], true)) {
+            abort(400, "No se puede mover de {$transaccion->estado} a {$estado}.");
+        }
+
+        $transaccion->update(['estado' => $estado]);
+        return redirect()
+            ->route('comercios.show', $transaccion->comercio_id)
+            ->with('mensaje', "Transacción movida a {$estado}.");
+    }
 }
