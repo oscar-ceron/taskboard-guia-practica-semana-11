@@ -38,3 +38,15 @@ Route::get('/comercios/{comercio}/transacciones/nueva',
 Route::post('/transacciones',
     [TransaccionController::class, 'store']
 )->name('transacciones.store');
+
+Route::get('/transacciones/{transaccion}/editar',
+[TransaccionController::class, 'edit'])
+->name('transacciones.edit');
+
+Route::put('/transacciones/{transaccion}',
+[TransaccionController::class, 'update'])
+->name('transacciones.update');
+
+Route::delete('/transacciones/{transaccion}',
+[TransaccionController::class, 'destroy'])
+->name('transacciones.destroy');

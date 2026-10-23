@@ -5,6 +5,13 @@
 @section('titulo', $comercio->nombre_comercio)
 
 @section('contenido')
+
+@if(session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        {{ session('error') }}
+    </div>
+@endif
+
 <p><a href="{{ route('comercios.index') }}">&larr; Volver a comercios</a></p>
 
 <h1>{{ $comercio->nombre_comercio }}</h1>
@@ -33,8 +40,18 @@
 <div class="transaccion">
     <strong>${{ $t->monto }}</strong> {{ $t->cliente_nombre }}
     <x-badge-estado :estado="$t->estado" />
+    <a href="{{ route('transacciones.edit', $t) }}">Editar</a>
+    <form action="{{ route('transacciones.destroy', $t) }}"
+        method="POST"
+        onsubmit="return confirm('¿Eliminar esta transacción? Esta acción no se puede deshacer.')">
+        @csrf
+        @method('DELETE')
+        <button type="submit">Eliminar</button>
+    </form>
 </div>
 @empty
 <p>Sin transacciones</p>
 @endforelse
+
+
 @endsection
